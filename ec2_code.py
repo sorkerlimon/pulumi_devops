@@ -1,4 +1,3 @@
-
 import pulumi
 import pulumi_aws as aws
 
@@ -19,11 +18,13 @@ instance = aws.ec2.Instance("classtune-ec2",
     subnet_id=subnet.id,
     vpc_security_group_ids=["sg-0f3718488c1032dc5"],
     key_name="classtune-limon",
+    associate_public_ip_address=True,  # This ensures the instance gets a public IP
     tags={
         "Name": "classtune-ec2"
     }
 )
 
 # Export the instance's public IP and public DNS
+pulumi.export('instance_id', instance.id)
 pulumi.export('instance_public_ip', instance.public_ip)
 pulumi.export('instance_public_dns', instance.public_dns)
